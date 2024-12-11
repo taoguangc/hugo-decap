@@ -1,0 +1,66 @@
+<header class="w-full bg-white" id="header">
+  <nav class="relative flex items-center justify-between flex-wrap p-12 max-w-7xl mx-auto">
+    <figure class="flex items-center">
+      <a href="{{ site.BaseURL }}" aria-label="emptyarea.com" class="text-indigo-500 font-bold text-lg">
+        <svg
+          width="60"
+          height="45"
+          viewBox="0 0 60 45"
+          fill="none"
+          class="text-black"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M7.5 0H60L52.5 15H52.0639C51.1738 12.8011 49.018 11.25 46.5 11.25H13.5C10.1863 11.25 7.5 13.9363 7.5 17.25V22V27.75C7.5 31.0637 10.1863 33.75 13.5 33.75H46.5C49.018 33.75 51.1738 32.1989 52.0639 30H52.5L60 45H7.5H0V0H7.5Z"
+            fill="none"
+            class="fill-current"
+          ></path>
+          <rect x="13" y="16" width="33" height="12" rx="3" fill="none" class="fill-current"></rect>
+        </svg>
+      </a>
+      <figcaption class="hidden">emptyarea.com</figcaption>
+    </figure>
+
+    <ul class="hidden md:flex md:flex-row space-x-24">
+      {{ $current := . }} {{ range site.Menus.main }} {{ $active := or ($current.IsMenuCurrent "main" .)
+      ($current.HasMenuCurrent "main" .) }} {{ $active = or $active (eq .Name $current.Title) }} {{ $active = or $active
+      (and (eq (trim (path.Dir .URL) "/") $current.Section) (ne $current.Section "")) }}
+      <li class="relative">
+        <a class="block group" href="{{ .URL | absURL }}">
+          {{ .Name }}
+          <div
+            class="absolute border-b border-black transition-all duration-500 transform group-hover:w-full{{ if $active }} w-full{{else}} w-0{{ end }}"
+            aria-hidden="true"
+          ></div>
+        </a>
+      </li>
+      {{ end }}
+    </ul>
+    <!--Toggle button (hidden on large screens)-->
+    <button class="header__toggle" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="toggle--inner">
+        <span aria-hidden="true"></span> <span aria-hidden="true"></span> <span aria-hidden="true"></span>
+      </div>
+    </button>
+    <div class="header__menu">
+      <ul class="mx-auto p-24 text-white flex flex-col items-start">
+        {{ $current := . }} {{ range $i, $e := site.Menus.main }} {{ $active := or ($current.IsMenuCurrent "main" .)
+        ($current.HasMenuCurrent "main" .) }} {{ $active = or $active (eq .Name $current.Title) }} {{ $active = or
+        $active (and (eq (trim (path.Dir .URL) "/") $current.Section) (ne $current.Section "")) }}
+        <li class="relative my-8 text-xl">
+          <a class="block group" href="{{ .URL | absURL }}">
+            {{ .Name }} {{ if $active }}
+            <div
+              class="absolute border-b border-white transition-all duration-500 transform group-hover:w-full w-full"
+              aria-hidden="true"
+            ></div>
+            {{ end }}
+          </a>
+        </li>
+        {{ end }}
+      </ul>
+    </div>
+  </nav>
+</header>
